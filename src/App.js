@@ -1,13 +1,20 @@
 import React from "react";
 import boxes from "./boxes";
+import Box from "./components/Box";
 
-export default function App(props) {
+export default function App() {
   const [boxesElement, setBoxesElement] = React.useState(boxes);
-  const styles = {
-    backgroundColor: props.darkMode ? "#222222" : "#cccccc",
-  };
+
+  function toggle(id) {
+    setBoxesElement((prevBoxes) => {
+      return prevBoxes.map((box) => {
+        return box.id === id ? { ...box, on: !box.on } : box;
+      });
+    });
+  }
+
   const createBoxes = boxesElement.map((box) => (
-    <div style={styles} className="main--boxes" key={box.id}></div>
+    <Box on={box.on} key={box.id} id={box.id} toggle={toggle} />
   ));
 
   return <main>{createBoxes}</main>;
